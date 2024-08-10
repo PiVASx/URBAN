@@ -1,5 +1,5 @@
 inp = set(map(int, input('Введите 3 числа: ').split(' ')))
-print(inp)
+
 if len(inp) == 3:
     print(0)
 elif len(inp) == 2:
