@@ -13,12 +13,7 @@ def calculate_structure_sum_no_recurs(lst_):
     # Удаляем все лишние символы оставляем только буквы и цифры и пробелы, преобразуем в лист по пробелам
     lst_ = ''.join(i for i in str_ if i.isalnum() or i in ' ').split(' ')
     # Считаем сумму проверя каждый элемент на число
-    summ = 0
-    for x in lst_:
-        if x.isdigit():
-            summ += int(x)
-        else:
-            summ += len(x)
+    summ = sum(int(x) if x.isdigit() else len(x) for x in lst_)
     return summ
 
 
@@ -27,6 +22,7 @@ print(f'Решение без рекурсии: {result}')
 
 
 def calculate_structure_sum(data_structure):
+
     summ = 0
     if isinstance(data_structure, str):
         summ += len(data_structure)
