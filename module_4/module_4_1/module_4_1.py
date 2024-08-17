@@ -1,4 +1,4 @@
-from module_4 import fake_math as fm
+from module_4.module_4_1 import fake_math as fm
 from true_math import divide as dd
 
 print(fm.divide(6, 2))
