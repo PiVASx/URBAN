@@ -46,18 +46,27 @@ class UrTube:
         return [vid.title for vid in self.videos if vid.title.lower().find(google.lower()) != -1]
 
     def watch_video(self, google):
+        video = [vid for vid in self.videos if vid.title == google]
+        if video:
+            video = video[0]
+        else:
+            return
+
         if not self.current_user:
             print(f'Войдите в аккаунт, чтобы смотреть видео')
             return
+
         for us in self.users:
             if us.nickname == self.current_user:
-                if us.age < 18:
+                if us.age < 18 and video.adult_mode:
                     print(f'Вам нет 18 лет, пожалуйста покиньте страницу')
                     return
-        for second in range(1, self.videos.duration + 1):
+
+        for second in range(1, video.duration + 1):
             print(f"Секунда: {second}")
             time.sleep(1)
-        #if any(vid for vid in self.videos if vid.title == google):
+        print('Конец видео')
+
 
 ur = UrTube()
 v1 = Video('Лучший язык программирования 2024 года', 200)
