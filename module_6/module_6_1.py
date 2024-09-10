@@ -1,7 +1,8 @@
 class Animal:
+    alive = True
+    fed = False
+
     def __init__(self, name):
-        self.alive = True
-        self.fed = False
         self.name = name
 
     def eat(self, food):
@@ -14,9 +15,10 @@ class Animal:
 
 
 class Plant:
+    edible = False
+
     def __init__(self, name):
         self.name = name
-        self.edible = False
 
 
 class Mammal(Animal):
@@ -32,10 +34,7 @@ class Flower(Plant):
 
 
 class Fruit(Plant):
-    def __init__(self, name):
-        super().__init__(name)   # Не понятно почему IDE добавил эту строку
-        self.name = name
-        self.edible = True
+    edible = True
 
 
 a1 = Predator('Волк с Уолл-Стрит')
