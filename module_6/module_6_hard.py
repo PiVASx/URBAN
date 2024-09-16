@@ -5,7 +5,7 @@ class Figure:
     sides_count = 0
 
     def __init__(self, color, sides, filled=False):
-        self.__sides = [sides for _ in range(sides)]
+        self.__sides = [sides for _ in range(self.sides_count)]
         self.filled = filled
         if Figure.__is_valid_color(color):
             self.__color = list(color)
@@ -41,7 +41,7 @@ class Figure:
         В остальных случаях возвращает сумму сторон (периметр).
         """
         if isinstance(self, Circle):
-            return 2 * math.pi * self.get_radius()
+            return int(2 * math.pi * self.get_radius())
         return sum(self.__sides)
 
 
@@ -56,6 +56,9 @@ class Circle(Figure):
         return self.__radius
 
     def get_square(self):
+        """
+        Площадь
+        """
         return math.pi * self.get_radius() ** 2
 
 
@@ -63,13 +66,22 @@ class Triangle(Figure):
     sides_count = 3
 
     def get_square(self):
-        p = sum(self.__sides) / 2
-        a, b, c = self.__sides
-        return math.sqrt(p * (p - a) * (p - b) * (p - c))
+        """
+        Площадь треугольника по формуле Герона
+        """
+        p = sum(self.get_sides()) / 2
+        a, b, c = self.get_sides()
+        return int(math.sqrt(p * (p - a) * (p - b) * (p - c)))
 
 
 class Cube(Figure):
     sides_count = 12
+
+    def get_volume(self):
+        """
+        Объём куба.
+        """
+        return self.get_sides()[0] ** 2 * 6
 
 
 circle1 = Circle((200, 200, 100), 10)  # (Цвет, стороны)
@@ -91,4 +103,22 @@ print(circle1.get_sides())
 print(len(circle1))
 
 # Проверка объёма (куба):
-# print(cube1.get_volume())
+print(cube1.get_volume())
+
+# Создаем треугольник
+triangle = Triangle((15, 12, 13), 4)
+
+# Проверка периметра, это и есть длина:
+print(len(triangle))
+# Проверка на изменение цветов:
+triangle.set_color(55, 13, 17)  # Изменится
+triangle.set_color(555, 13, 17)  # Не изменится
+
+# Проверка периметра (треугольника):
+print(triangle.get_square())
+
+# Проверка на изменение сторон:
+triangle.set_sides(9, 9, 9)  # Изменится
+print(triangle.get_sides())
+triangle.set_sides(7, 7, 7, 7)  # Не изменится
+print(triangle.get_sides())
