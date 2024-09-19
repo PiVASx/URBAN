@@ -75,4 +75,3 @@ finderAll = WordsFinder('All/Mother Goose - Monday’s Child.txt',
 print(finderAll.get_all_words())
 print(finderAll.find('the'))
 print(finderAll.count('the'))
-
