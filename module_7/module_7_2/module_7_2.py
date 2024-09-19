@@ -2,10 +2,11 @@ def custom_write(file_name, strings):
     strings_positions = {}
     file = open(file_name, 'w', encoding='UTF-8')
     for num, string in enumerate(strings):
-        strings_positions[(num, file.tell())] = string
+        strings_positions[(num + 1, file.tell())] = string
         file.write(string + '\n')
     file.close()
     return strings_positions
+
 
 info = [
     'Text for tell.',
