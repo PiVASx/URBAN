@@ -4,13 +4,19 @@ import math
 class Figure:
     sides_count = 0
 
-    def __init__(self, color, sides, filled=False):
-        self.__sides = [sides for _ in range(self.sides_count)]
-        self.filled = filled
-        if Figure.__is_valid_color(color):
+    def __init__(self, color, *sides):
+        if self.sides_count == 0:
+            self.__sides = []
+        else:
+            if all(x == sides[0] for x in sides) if sides else True:
+                self.__sides = [sides[0] for _ in range(self.sides_count)]
+            else:
+                self.__sides = [1 for _ in range(self.sides_count)]
+        self.filled = False
+        if self.__is_valid_color(color):
             self.__color = list(color)
         else:
-            self.__color = [255, 255, 255]
+            self.__color = [0, 0, 0]
 
     @staticmethod
     def __is_valid_color(color):
@@ -18,13 +24,13 @@ class Figure:
                 and all(isinstance(x, int) and 0 <= x <= 255 for x in color))
 
     def __is_valid_sides(self, sides):
-        return all(x > 0 for x in sides) and len(sides) == self.sides_count
+        return all(x > 0 and isinstance(x, int) for x in sides) and len(sides) == self.sides_count
 
     def get_color(self):
         return self.__color
 
     def set_color(self, *color):
-        if Figure.__is_valid_color(color):
+        if self.__is_valid_color(color):
             self.__color = list(color)
 
     def get_sides(self):
@@ -48,9 +54,9 @@ class Figure:
 class Circle(Figure):
     sides_count = 1
 
-    def __init__(self, color, sides):
-        super().__init__(color, sides)
-        self.__radius = sides / 2
+    def __init__(self, color, *sides):
+        super().__init__(color, *sides)
+        self.__radius = self.get_sides()[0] / (2 * math.pi)
 
     def get_radius(self):
         return self.__radius
@@ -59,7 +65,7 @@ class Circle(Figure):
         """
         Площадь
         """
-        return math.pi * self.get_radius() ** 2
+        return math.pi * (self.__radius ** 2)
 
 
 class Triangle(Figure):
@@ -81,7 +87,7 @@ class Cube(Figure):
         """
         Объём куба.
         """
-        return self.get_sides()[0] ** 2 * 6
+        return self.get_sides()[0] ** 3
 
 
 circle1 = Circle((200, 200, 100), 10)  # (Цвет, стороны)
