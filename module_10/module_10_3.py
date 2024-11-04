@@ -12,6 +12,9 @@ class Bank:
         i = 0
         while i < 100:
             num = randint(50, 501)
+            if self.lock.locked() and self.balance >= 500:
+                self.lock.release()  # Освобождаем блокировку, если баланс >= 500
+
             self.lock.acquire()  # Пытаемся захватить блокировку
             try:
                 self.balance += num
