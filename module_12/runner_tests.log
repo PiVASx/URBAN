@@ -1,0 +1,19 @@
+WARNING: Неверный тип данных для объекта Runner
+Traceback (most recent call last):
+  File "D:\Development\URBAN\module_12\tests_12_4.py", line 79, in test_run
+    self.assertEqual(tr.distance, 100)
+  File "C:\Program Files\JetBrains\PyCharm Community Edition 2024.2.1\plugins\python-ce\helpers\pycharm\teamcity\diff_tools.py", line 33, in _patched_equals
+    old(self, first, second, msg)
+  File "C:\Users\crazy\AppData\Local\Programs\Python\Python312\Lib\unittest\case.py", line 885, in assertEqual
+    assertion_func(first, second, msg=msg)
+  File "C:\Users\crazy\AppData\Local\Programs\Python\Python312\Lib\unittest\case.py", line 878, in _baseAssertEqual
+    raise self.failureException(msg)
+AssertionError: 10 != 100
+WARNING: Неверная скорость для Runner
+Traceback (most recent call last):
+  File "D:\Development\URBAN\module_12\tests_12_4.py", line 68, in test_walk
+    tr = Runner('Вася', -5)  # Передаем отрицательно значение
+         ^^^^^^^^^^^^^^^^^^
+  File "D:\Development\URBAN\module_12\tests_12_4.py", line 24, in __init__
+    raise ValueError(f'Скорость не может быть отрицательной, сейчас {speed}')
+ValueError: Скорость не может быть отрицательной, сейчас -5
