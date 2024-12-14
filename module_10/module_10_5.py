@@ -27,13 +27,28 @@ print(len(all_date_full))
 print(f"Время выполнения: {time.time() - start_time:.2f} секунд")"""
 
 
-if __name__ == '__main__':
+"""if __name__ == '__main__':
     print('Тест 2: Многопроцессорный запуск')
     start_time = time.time()  # Запоминаем время начала выполнения
 
     # Запуск многопроцессорность через Pool
     with multiprocessing.Pool() as pool:
         all_date_full = pool.map(read_info, list_fname)
+
+    print(len(all_date_full))
+    print(f"Время выполнения: {time.time() - start_time:.2f} секунд")
+
+"""
+if __name__ == '__main__':
+    print('Тест 3: Многопроцессорный запуск')
+    start_time = time.time()  # Запоминаем время начала выполнения
+
+    # Запуск многопроцессорность
+    for x in list_fname:
+        p = multiprocessing.Process(target=read_info, args=(x,))
+        p.start()
+        p.join()
+        all_date_full.append(p)
 
     print(len(all_date_full))
     print(f"Время выполнения: {time.time() - start_time:.2f} секунд")
