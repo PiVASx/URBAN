@@ -53,7 +53,7 @@ async def send_calories(message: types.Message, state: FSMContext):
 
     # Расчет BMR по формуле Миффлина-Сан Жеора для мужчины
     bmr = 10 * weight + 6.25 * growth - 5 * age + 5
-    await message.answer(f"Ваш возраст: {age}, Рост: {growth} см, Вес: {weight} кг.\nВаш BMR: {bmr:.2f} калорий в день.")
+    await message.answer(f"Ваш норма калорий в день {bmr:.2f}.")
     await state.finish()
 
 
