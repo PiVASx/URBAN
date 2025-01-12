@@ -3,7 +3,6 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher import FSMContext
 
-
 from settings import API_TOKEN
 
 # API_TOKEN = ''
@@ -19,7 +18,13 @@ class UserState(StatesGroup):
     weight = State()
 
 
-@dp.message_handler(text='Calories')
+@dp.message_handler(commands=['start', 'help'])
+async def start(message: types.Message):
+    await message.answer('Привет! Я бот помогающий твоему здоровью.')
+    await message.answer('Что я умею:\nМогу посчитать суточную норму калорий. Напиши в чат #Calories')
+
+#Подсчёт калорий
+@dp.message_handler(text=['Calories', '#Calories'])
 async def set_age(message):
     await message.answer('Введите свой возраст:')
     await UserState.age.set()
@@ -44,7 +49,8 @@ async def set_weight(message: types.Message, state: FSMContext):
 async def send_calories(message: types.Message, state: FSMContext):
     await state.update_data(weight=message.text)
     user_data = await state.get_data()
-    print(f"id_user: {user_data['id_user']}, Возраст: {user_data['age']}, Рост: {user_data['growth']}, Вес: {user_data['weight']}")
+    print(
+        f"id_user: {user_data['id_user']}, Возраст: {user_data['age']}, Рост: {user_data['growth']}, Вес: {user_data['weight']}")
 
     # Извлекаем данные
     age = int(user_data['age'])
@@ -55,6 +61,10 @@ async def send_calories(message: types.Message, state: FSMContext):
     bmr = 10 * weight + 6.25 * growth - 5 * age + 5
     await message.answer(f"Ваш норма калорий в день {bmr:.2f}.")
     await state.finish()
+
+@dp.message_handler()
+async def all_massages(message: types.Message):
+    await message.answer('Я знаю только команду #Calories')
 
 
 if __name__ == '__main__':
