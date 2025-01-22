@@ -52,9 +52,8 @@ SELECT username, email, age, balance FROM Users WHERE age != 60
 ''')
 
 # Получение всех записей
-rows = cursor.execute('''
-SELECT username, email, age, balance FROM Users
-''')
+rows = cursor.fetchall()
+
 
 # Вывод результатов
 for row in rows:
