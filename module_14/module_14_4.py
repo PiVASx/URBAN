@@ -10,7 +10,7 @@ from settings import API_TOKEN
 
 
 # Создание соединения с базой данных
-conn = create_connection('products_telegram.db')
+conn = create_connection('not_telegram.db')
 
 # Полная очистка базы данных: Удаление Products, если она существует.
 drop_tables(conn)
