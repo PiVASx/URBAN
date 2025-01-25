@@ -1,6 +1,6 @@
 import sqlite3
 
-# Создание базы данных и подключение к ней
+# подключение к базе
 conn = sqlite3.connect('not_telegram.db')
 cursor = conn.cursor()
 
