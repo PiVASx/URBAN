@@ -8,7 +8,6 @@ from aiogram.types.inline_keyboard import InlineKeyboardMarkup, InlineKeyboardBu
 from crud_functions import *
 from settings import API_TOKEN
 
-
 # Создание соединения с базой данных
 conn = create_connection('not_telegram.db')
 
@@ -24,7 +23,6 @@ clear_tables_users(conn)
 # Инициализация таблицы Products
 initiate_db_users(conn)
 
-
 # Добавляем записи в базы
 add_product(conn, 'Продукт 1', 'Описание продукта 1', 100)
 add_product(conn, 'Продукт 2', 'Описание продукта 2', 200)
@@ -36,8 +34,6 @@ add_user(conn, 'newuser', 'user@gmail.com', '33')
 # Получаем все записи из базы.
 products = get_all_products(conn)
 
-
-
 # Создаем хранилище для управления состоянием пользователя
 storage = MemoryStorage()
 
@@ -47,11 +43,13 @@ bot = Bot(token=API_TOKEN)
 # Создаем диспетчер для управления обработчиками
 dp = Dispatcher(bot, storage=storage)
 
+
 # Определяем состояния для FSM (Finite State Machine) расчет калорий
 class UserState(StatesGroup):
     age = State()  # Состояние для ввода возраста
     growth = State()  # Состояние для ввода роста
     weight = State()  # Состояние для ввода веса
+
 
 # Определяем состояния для FSM (Finite State Machine) расчет калорий. Регистрация.
 class RegistrationState(StatesGroup):
@@ -90,6 +88,7 @@ i_product2 = InlineKeyboardButton(text='Продукт 2', callback_data='produc
 i_product3 = InlineKeyboardButton(text='Продукт 3', callback_data='product_buying')
 i_product4 = InlineKeyboardButton(text='Продукт 4', callback_data='product_buying')
 iprod.row(i_product1, i_product2, i_product3, i_product4)  # Располагаем кнопки в строку
+
 
 # Обработчик команды /start и /help
 @dp.message_handler(commands=['start', 'help'])
@@ -157,6 +156,7 @@ async def send_calories(message: types.Message, state: FSMContext):
     await message.answer(f"Ваша норма калорий в день: {bmr:.2f}.")  # Отправляем результат пользователю
     await state.finish()  # Завершаем состояние
 
+
 #### Блок регистрации ####
 
 # Обработчик текста "Регистрация"
@@ -164,6 +164,7 @@ async def send_calories(message: types.Message, state: FSMContext):
 async def sing_up(message: types.Message):
     await message.answer('Введите имя пользователя (только латинский алфавит):')  # Запрашиваем имя пользователя
     await RegistrationState.username.set()  # Устанавливаем состояние для имени
+
 
 # Обработчик состояния ввода username
 @dp.message_handler(state=RegistrationState.username)
@@ -177,12 +178,14 @@ async def set_username(message: types.Message, state: FSMContext):
         await message.answer('Введите свой email')  # Запрашиваем рост
         await RegistrationState.email.set()  # Устанавливаем состояние для роста
 
+
 # Обработчик состояния ввода email
 @dp.message_handler(state=RegistrationState.email)
 async def set_email(message: types.Message, state: FSMContext):
     await state.update_data(email=message.text)  # Сохраняем email
     await message.answer('Введите свой возраст:')  # Запрашиваем рост
     await RegistrationState.age.set()  # Устанавливаем состояние для роста
+
 
 # Обработчик состояния ввода возраст
 @dp.message_handler(state=RegistrationState.age)
@@ -196,6 +199,7 @@ async def set_age(message: types.Message, state: FSMContext):
         f"Новый пользователь, Ник: {user_data['username']}, Мыло: {user_data['email']}, Возраст: {user_data['age']}")
 
     await state.finish()  # Завершаем состояние
+
 
 ##### Конец блока регистрации.  #####
 
@@ -214,10 +218,11 @@ async def get_buying_list(message: types.Message):
             await message.answer_photo(photo)
         _, title, description, price = product
         await message.answer(
-        f"Название: {title} | Описание: {description} | Цена: {price}₽"
+            f"Название: {title} | Описание: {description} | Цена: {price}₽"
         )
 
     await message.answer("Выберите продукт для покупки:", reply_markup=iprod)
+
 
 # Обработчик нажатия на инлайн-кнопку "Купить продукт"
 @dp.callback_query_handler(text='product_buying')
